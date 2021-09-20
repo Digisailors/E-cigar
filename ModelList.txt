@@ -1,0 +1,92 @@
+User { 
+	String name, 
+	String phoneNumber,
+	String address,
+	String uid,
+	String role => ENUM('admin', 'customer', 'owner', 'driver'),
+}
+
+Customer inherits User {
+	String docID;
+	List<Orders> myOrders,
+	List<Products> myCart,
+	List<Products> favourites,
+	List<String> Adresses,
+}
+
+Owner inherits user{
+	String docID;
+	Restaurant myRestaurant;
+	double earnings;
+}
+
+Driver inherits user {
+	String docID;
+	List<Orders> orderList, // FirebaseDocumentReference,
+	double earnings,
+	bool availability,
+	List<Rating> myRatings, //Firebase-inDocument Collection
+	currentLocation,
+	List<Ride> rides,
+	Order currentOrder;
+}
+
+Ride {
+	String docID;
+	locationData fromAdress;
+	locationData toAdress;
+	double distance;
+}
+
+Rating {
+	String docID;
+	String comments;
+	int stars;
+	DateTime created;
+	User createdBy;
+}
+
+Category {
+	String docID;
+	String name;
+	String parentCategory;
+}
+
+Shop { 
+	String docID;
+	Adresses adress;
+	locationData location,
+	DateTime opening,
+	DateTime closing,
+	bool availability,
+	List<Orders> orders, // FirebaseDocumentReference
+	List<Reviews> //Firebase-inDocument Collection
+}
+
+Order {
+	String docID;
+	Customer customer // FirebaseDocumentReference
+	List<Product> products // List of Reference
+	double totalAmount;
+	bool paymentStatus;
+	bool deliveryStatus;
+	Ride ride;
+	DateTime created;
+	List invoiceList;
+}
+
+Product {
+	String sku;
+	List<Category> categories;
+	int stock;
+	String imageUrl;
+	String brand;
+	Rating rating; // Firebase-inDocument Collection
+	Shop shop; // FirebaseDocumentReference
+	String name;
+	String description;
+	double mrp;
+	double discount;
+	bool availability;
+	Spectifiaction specs;
+}
